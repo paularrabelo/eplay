@@ -1,0 +1,23 @@
+import { createGlobalStyle } from 'styled-components'
+const cores = {
+  branco: '#EEEEEE',
+  preto: '#111',
+  verde: '#10AC84',
+  cinza: '#333'
+}
+
+export const GlobalCss = createGlobalStyle`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    list-style: none;
+    text-decoration: none;
+  }
+
+  body {
+    background-color: ${cores.preto};
+    color: ${cores.branco};
+  }
+`
