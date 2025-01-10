@@ -2,16 +2,11 @@ import { Action, Item, Items, Modal, ModalContent } from './styles'
 import Section from '../Section'
 import starWars from '../../assets/images/star_wars.png'
 import resident from '../../assets/images/resident.png'
-import hogwarts from '../../assets/images/hogwarts.png'
 import play from '../../assets/images/play.png'
 import zoom from '../../assets/images/zoom.png'
 import fechar from '../../assets/images/close.png'
 import { useState } from 'react'
-
-interface GalleryItem {
-  type: 'image' | 'video'
-  url: string
-}
+import { GalleryItem } from '../../pages/Home'
 
 const mock: GalleryItem[] = [
   {
