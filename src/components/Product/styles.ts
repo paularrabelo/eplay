@@ -1,12 +1,15 @@
 import styled from 'styled-components'
 import { cores } from '../../styles'
 import { TagContainer } from '../Tag/styles'
+import { Link } from 'react-router-dom'
 
-export const CardContainer = styled.div`
+export const CardContainer = styled(Link)`
   background-color: ${cores.cinza};
   border-radius: 8px;
   padding: 8px;
   position: relative;
+  color: ${cores.branco};
+  display: block;
 
   img {
     display: block;
