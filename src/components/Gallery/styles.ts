@@ -3,6 +3,8 @@ import { cores } from '../../styles'
 
 export const Items = styled.ul`
   display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 `
 export const Action = styled.div`
   position: absolute;
@@ -16,10 +18,10 @@ export const Action = styled.div`
   justify-content: center;
   opacity: 0;
   transition: opacity 0.5s ease;
+  cursor: pointer;
 `
 
 export const Item = styled.li`
-  margin-right: 16px;
   position: relative;
 
   > img {
@@ -65,10 +67,15 @@ export const ModalContent = styled.div`
   max-width: 960px;
   position: relative;
   z-index: 1;
+
   header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 24px;
+
+    img {
+      cursor: pointer;
+    }
 
     h4 {
       font-size: 18px;
