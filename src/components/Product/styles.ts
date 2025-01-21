@@ -10,6 +10,7 @@ export const CardContainer = styled(Link)`
   position: relative;
   color: ${cores.branco};
   display: block;
+  height: 460px;
 
   img {
     display: block;
