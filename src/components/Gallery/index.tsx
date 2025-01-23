@@ -1,28 +1,12 @@
-import { Action, Item, Items, Modal, ModalContent } from './styles'
+import { useState } from 'react'
+
 import Section from '../Section'
-import starWars from '../../assets/images/star_wars.png'
-import resident from '../../assets/images/resident.png'
 import play from '../../assets/images/play.png'
 import zoom from '../../assets/images/zoom.png'
 import fechar from '../../assets/images/close.png'
-import { useState } from 'react'
 import { GalleryItem } from '../../pages/Home'
 
-const mock: GalleryItem[] = [
-  {
-    type: 'image',
-    url: starWars
-  },
-  {
-    type: 'image',
-    url: resident
-  },
-  {
-    type: 'video',
-    url: 'https://www.youtube.com/embed/yF29baX-IsA?si=M77qwL2JJlnKKS5K'
-  }
-]
-
+import { Action, Item, Items, Modal, ModalContent } from './styles'
 type Props = {
   defaultCover: string
   name: string
