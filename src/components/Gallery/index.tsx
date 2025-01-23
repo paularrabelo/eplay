@@ -4,7 +4,6 @@ import Section from '../Section'
 import play from '../../assets/images/play.png'
 import zoom from '../../assets/images/zoom.png'
 import fechar from '../../assets/images/close.png'
-import { GalleryItem } from '../../pages/Home'
 
 import * as S from './styles'
 type Props = {
