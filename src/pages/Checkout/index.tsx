@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import InputMask from 'react-input-mask'
 
@@ -14,6 +14,7 @@ import { usePurchaseMutation } from '../../services/api'
 import { InputGroup, Row, TabButton } from './styles'
 import { RootReducer } from '../../store'
 import { getTotalPrice, parseToBrl } from '../../utils'
+import { clear } from '../../store/reducers/cart'
 
 type Installment = {
   quantity: number
@@ -26,6 +27,7 @@ const Checkout = () => {
   const [purchase, { data, isSuccess, isLoading }] = usePurchaseMutation()
   const { items } = useSelector((state: RootReducer) => state.cart)
   const [installments, setInstallments] = useState<Installment[]>([])
+  const dispatch = useDispatch()
 
   const totalPrice = getTotalPrice(items)
 
@@ -64,7 +66,7 @@ const Checkout = () => {
       cardOwner: Yup.string().when((values, schema) =>
         payWithCard ? schema.required('Campo obrigatório') : schema
       ),
-      cpfCardOwner: Yup.number().when((values, schema) =>
+      cpfCardOwner: Yup.string().when((values, schema) =>
         payWithCard ? schema.required('Campo obrigatório') : schema
       ),
       cardDisplayName: Yup.string().when((values, schema) =>
@@ -114,12 +116,10 @@ const Checkout = () => {
             }
           }
         },
-        products: [
-          {
-            id: 1,
-            price: 10
-          }
-        ]
+        products: items.map((item) => ({
+          id: item.id,
+          price: item.prices.current as number
+        }))
       })
     }
   })
@@ -150,7 +150,13 @@ const Checkout = () => {
     }
   }, [totalPrice])
 
-  if (items.length === 0) {
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clear())
+    }
+  }, [isSuccess, dispatch])
+
+  if (items.length === 0 && !isSuccess) {
     return <Navigate to={'/'} />
   }
 
@@ -345,7 +351,7 @@ const Checkout = () => {
                       <InputGroup>
                         <label htmlFor="cardNumber">Número do cartão</label>
                         <InputMask
-                          type="number"
+                          type="text"
                           id="cardNumber"
                           name="cardNumber"
                           value={form.values.cardNumber}
@@ -360,7 +366,7 @@ const Checkout = () => {
                       <InputGroup maxWidth="123px">
                         <label htmlFor="expiresMonth">Mês de vencimento</label>
                         <InputMask
-                          type="number"
+                          type="text"
                           id="expiresMonth"
                           name="expiresMonth"
                           value={form.values.expiresMonth}
@@ -375,7 +381,7 @@ const Checkout = () => {
                       <InputGroup maxWidth="123px">
                         <label htmlFor="expiresYear">Ano de vencimento</label>
                         <InputMask
-                          type="number"
+                          type="text"
                           id="expiresYear"
                           name="expiresYear"
                           value={form.values.expiresYear}
@@ -390,7 +396,7 @@ const Checkout = () => {
                       <InputGroup maxWidth="48px">
                         <label htmlFor="cardCode">CVV</label>
                         <InputMask
-                          type="number"
+                          type="text"
                           id="cardCode"
                           name="cardCode"
                           value={form.values.cardCode}
@@ -417,7 +423,10 @@ const Checkout = () => {
                           }
                         >
                           {installments.map((installment) => (
-                            <option key={installment.quantity}>
+                            <option
+                              value={installment.quantity}
+                              key={installment.quantity}
+                            >
                               {installment.quantity}x de{' '}
                               {installment.formattedAmount}
                             </option>
